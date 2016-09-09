@@ -1,33 +1,46 @@
-//Problem: It looks gross in smaller browser widths and small devices
-//Solution: to hide the text links and swap them out with a more appropriate navigation
+//Problem: User when clicking on image goes to a dead end
+//Solution: Create an overlay with the large image - Lightbox
 
-//Create a select and append to #menu
-var $select = $("<select></select>");
-$("#menu").append($select);
+var $overlay = $('<div id="overlay"></div>');
+var $image = $("<img>");
+var $caption = $("<p></p>");
 
-//Cycle over menu links
-$("#menu a").each(function(){
-  var $anchor = $(this);
-  //Create an option
-  var $option = $("<option></option>");
+//An image to overlay
+$overlay.append($image);
+
+//A caption to overlay
+$overlay.append($caption);
+
+//Add overlay
+$("body").append($overlay);
+
+//Capture the click event on a link to an image
+$("#imageGallery a").click(function(event){
+
+  var imageLocation = $(this).attr("href");
+  //Update overlay with the image linked in the link
+  $image.attr("src", imageLocation);
   
-  //option's value is href
-  $option.val($anchor.attr("href"));
-  //option's text is the text of link
-  $option.text($anchor.text());
-  //append option to select
-  $select.append($option);
-});
+  //Show the overlay.
+  $overlay.show();
   
-//Create button
-var $button = $("<button>Go</button>");
-$("#menu").append($button);
-//Bind click to button
-$button.click(function(){
-  //Go to select's location
-  window.location = $select.val();
+  //Get child's title attribute and set caption
+  var captionText = $(this).children("img").attr("alt");
+  $caption.text(captionText);
 });
 
-//Modify CSS to hide links on small width and show button and select
-  //Also hides select and buttons on larger width and show's links
-//Deal with selected options depending on current page
+//When overlay is clicked
+$overlay.click(function(){
+  //Hide the overlay
+  $overlay.hide();
+});
+
+
+
+
+
+
+
+
+
+
